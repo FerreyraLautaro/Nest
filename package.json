@@ -1,48 +1,105 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "prestart": "npm i",
-    "start": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "db:create": "knex migrate:make $npm_config_name",
-    "relink": "(command -v link-module-alias && link-module-alias clean || echo '') && link-module-alias",
-    "postinstall": "link-module-alias",
-    "preinstall": "command -v link-module-alias && link-module-alias clean || echo ''"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@bitbucket.org/wuala/integrador-backend.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "homepage": "https://bitbucket.org/wuala/integrador-backend#readme",
-  "_moduleAliases": {
-    "_package-json": "./package.json",
-    "_config": "./config",
-    "_controllers": "./controllers"
-  },
-  "dependencies": {
-    "@woocommerce/woocommerce-rest-api": "^1.0.1",
-    "cors": "^2.8.5",
-    "dir-load": "^1.1.0",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "jwt-simple": "^0.5.6",
-    "knex": "^0.21.6",
-    "lodash": "^4.17.20",
-    "log4js": "^6.3.0",
-    "moment": "^2.29.1",
-    "morgan": "^1.10.0",
-    "mysql": "^2.18.1",
-    "nodemon": "^2.0.6",
-    "querystring": "^0.2.0",
-    "request": "^2.88.2",
-    "woocommerce-api": "^1.5.0"
-  },
-  "devDependencies": {
-    "link-module-alias": "^1.2.0"
-  }
+    "name": "backend",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "prestart": "npm i",
+        "start": "nodemon app.js",
+        "release": "standard-version",
+        "release:minor": "standard-version --release-as minor",
+        "release:patch": "standard-version --release-as patch",
+        "release:major": "standard-version --release-as major",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "db:create": "knex migrate:make $npm_config_name",
+        "relink": "(command -v link-module-alias && link-module-alias clean || echo '') && link-module-alias",
+        "postinstall": "link-module-alias",
+        "preinstall": "command -v link-module-alias && link-module-alias clean || echo ''"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@bitbucket.org/wuala/integrador-backend.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "homepage": "https://bitbucket.org/wuala/integrador-backend#readme",
+    "_moduleAliases": {
+        "_package-json": "./package.json",
+        "_config": "./config",
+        "_controllers": "./controllers"
+    },
+    "dependencies": {
+        "@commitlint/cli": "^11.0.0",
+        "@commitlint/config-conventional": "^11.0.0",
+        "@woocommerce/woocommerce-rest-api": "^1.0.1",
+        "cors": "^2.8.5",
+        "dir-load": "^1.1.0",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "husky": "^4.3.0",
+        "jwt-simple": "^0.5.6",
+        "knex": "^0.21.6",
+        "lodash": "^4.17.20",
+        "log4js": "^6.3.0",
+        "moment": "^2.29.1",
+        "morgan": "^1.10.0",
+        "mysql": "^2.18.1",
+        "nodemon": "^2.0.6",
+        "querystring": "^0.2.0",
+        "request": "^2.88.2",
+        "woocommerce-api": "^1.5.0"
+    },
+    "devDependencies": {
+        "link-module-alias": "^1.2.0",
+        "standard-version": "^9.0.0"
+    },
+    "husky": {
+        "hooks": {
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+        }
+    },
+    "commitlint": {
+        "extends": [
+            "@commitlint/config-conventional"
+        ]
+    },
+    "standard-version": {
+        "types": [{
+                "type": "feat",
+                "section": "Features"
+            },
+            {
+                "type": "fix",
+                "section": "Bug Fixes"
+            },
+            {
+                "type": "chore",
+                "hidden": true
+            },
+            {
+                "type": "docs",
+                "hidden": true
+            },
+            {
+                "type": "style",
+                "hidden": true
+            },
+            {
+                "type": "refactor",
+                "hidden": true
+            },
+            {
+                "type": "perf",
+                "hidden": true
+            },
+            {
+                "type": "test",
+                "hidden": true
+            }
+        ],
+        "commitUrlFormat": "https://bitbucket.org/wuala/integrador-backend/commits/{{hash}}",
+        "compareUrlFormat": "https://bitbucket.org/wuala/integrador-backend/compare{{previousTag}}...{{currentTag}}",
+        "userUrlFormat": "https://bitbucket.org/wuala/integrador-backend/issues/{{user}}",
+        "issueUrlFormat": "https://bitbucket.org/wuala/integrador-backend/issues/{{id}}"
+    }
 }
