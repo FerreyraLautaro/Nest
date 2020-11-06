@@ -19,9 +19,9 @@ const ENV = process.env.ENV;
 const PORT = process.env.PORT || process.env.VCAP_APP_PORT || 4000;
 
 // Setup Middleware
-app.use(morgan('dev'));
-app.use(bodyParser.json());
-app.use(cors());
+app.use(morgan('dev')); //Logger
+app.use(bodyParser.json()); // Body Parser
+app.use(cors()); // CORS
 
 // Load routes
 const routesPath = './routes/';

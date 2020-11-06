@@ -1,5 +1,5 @@
 /**
- * Requiering dependencies
+ * Requiring dependencies
  */
 const { knex, error } = require('_config');
 const { toString, assign } = require('lodash');

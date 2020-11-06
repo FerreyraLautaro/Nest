@@ -1,5 +1,5 @@
 /**
- * Requiering dependencies
+ * Requiring dependencies
  */
 const Request = require('request');
 const { first } = require('lodash');
@@ -25,7 +25,7 @@ const statusRouter = (router) => {
    * @example http http://localhost:4000/status/healty
    * @returns {JSON} pre-defined static object
    */
-  router.get('/status/healty', async (req, res) => {
+  router.get('/status/healthy', async (req, res) => {
     info(`[${req.method}] [${req.path}] Process Successfully`);
     res.send({ version });
   });
