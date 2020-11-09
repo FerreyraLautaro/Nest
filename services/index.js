@@ -26,7 +26,6 @@ const { info } = require('_config');
  */
 const filter = (item) => {
   const excludes = [
-    'woocommerce.js',
     'index.js'
   ]
   if (includes(excludes, path.basename(item.path))) {
@@ -57,6 +56,6 @@ const modules = {};
 const modulesRequired = modulesFound.requireAll();
 const loop = forEach(modulesRequired, (item) => {
   assign(modules, modules, item);
-  info(`Controller loaded: ${capitalize(first(keys(item)))}`);
+  info(`Service loaded: ${capitalize(first(keys(item)))}`);
 });
 module.exports = modules;
