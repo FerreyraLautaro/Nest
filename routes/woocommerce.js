@@ -1,5 +1,5 @@
 /**
- * Requiering dependencies
+ * Requiring dependencies
  */
 const { set, replace, toString } = require('lodash');
 const { WooController } = require('_controllers');

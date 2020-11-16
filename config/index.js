@@ -1,16 +1,32 @@
 /**
- * Requiering dependencies
+ * @module Autoloader
+ * @requires path Native
+ * @requires dirLoad From external library
+ * @requires lodash From external library
+ * @requires lodash/forEach From external library
+ * @requires lodash/assign From external library
+ * @requires lodash/keys From external library
+ * @requires lodash/first From external library
+ * @requires lodash/capitalize From external library
+ * @requires lodash/includes From external library
+ * @requires config/log/info From internal library
  */
+
+
+// Requiring dependencies
 const DirLoad = require('dir-load');
 const path = require('path');
-const { forEach, assign, keys, first, capitalize } = require('lodash');
+const { forEach, assign, keys, first, capitalize, includes } = require('lodash');
 const { info } = require('./log');
 
 /**
  * Callback function for filter files to be loaded be autoload configurations
  */
 const filter = (item) => {
-  if (path.basename(item.path) === 'index.js') {
+  const excludes = [
+    'index.js'
+  ]
+  if (includes(excludes, path.basename(item.path))) {
     return false;
   }
   return true;
