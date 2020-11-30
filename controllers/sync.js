@@ -10,17 +10,17 @@
  * @requires lodash/map
  */
 const {axios} = require('_config/axios');
-const { set, map } = require('lodash');
+const { set, map, head, toNumber } = require('lodash');
 
 /**
  * Code Dependencies
  * @requires _services/sync
  * @requires _schemas/sync
- * @requires _schemas/wooCategories/CategorySchema
+ * @requires _schemas/wooProducts/ProductSchema
  */
 
 const { service, getEquivalency } = require('_services/sync')
-const {CategorySchema} = require('_schemas/wooCategories')
+const {ProductSchema} = require('_schemas/wooProducts')
 const { schema } = require('_schemas/sync')
 
 /**
@@ -51,7 +51,7 @@ class SyncController {
             const category = schema.categories(item);
             let parent = await service.getEquivalency('categories', category.parent)
             set(category, 'parent', parent)
-            const schemaContext = new CategorySchema;
+            const schemaContext = new ProductSchema;
             const isValid = schemaContext.isValid(category);
             if (!isValid) {
                 throw new Error(schemaContext.validate(category))
@@ -67,6 +67,41 @@ class SyncController {
             const relations = await service.saveRelation('categories', {
                 flx_id: item.CODIGOCATEGORIA,
                 woo_id: getResponseData(wooCategory).id
+            })
+            return relations
+        })
+        return await Promise.all(result)
+    }
+
+
+     /**
+     * @function products Method to sync products
+     * @returns {Boolean} true if all sync it's fine, false if an error as ocurred
+     */
+
+    static async products() {
+        const flxProducts = await axios.get(`/flexxus/products`)
+        const flxProductsList = getResponseData(flxProducts).data;
+        const result = map(flxProductsList, async item => {
+            const product = schema.products(item);
+            let parent = await service.getEquivalency('categories', head(product.categories).id)
+            set(head(product.categories), 'id', toNumber(parent))
+            const schemaContext = new ProductSchema;
+            const isValid = schemaContext.isValid(product);
+            if (!isValid) {
+                throw new Error(schemaContext.validate(product))
+            }
+
+            const exist = await service.getEquivalency('products', item.ID_ARTICULO)
+
+            if (exist) {
+                const wooProduct = await axios.put(`/woo/products/${exist}`, product)
+                return;
+            }
+            const wooProduct = await axios.post(`/woo/products`, product)
+            const relations = await service.saveRelation('products', {
+                flx_id: item.ID_ARTICULO,
+                woo_id: getResponseData(wooProduct).id
             })
             return relations
         })

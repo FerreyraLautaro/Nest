@@ -58,7 +58,7 @@ class ProductSchema {
                                     .typeError('TypeError on categories[]: Valid type is object')
                                     .shape({
                                         id: yup.number()
-                                            .typeError('TypeError on categories[].href: Valid type is number')
+                                            .typeError('TypeError on categories[].id: Valid type is number')
                                             .optional()
                                     })
                                 .optional()
@@ -69,7 +69,7 @@ class ProductSchema {
                                     .typeError('TypeError on images[]: Valid type is object')
                                     .shape({
                                         src: yup.string()
-                                            .typeError('TypeError on images[].href: Valid type is number')
+                                            .typeError('TypeError on images[].src: Valid type is number')
                                             .url('FormatError: URL format required')
                                             .optional()
                                     })

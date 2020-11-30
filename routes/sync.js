@@ -11,7 +11,7 @@
  // Requiring dependencies
 const { toString, every } = require('lodash');
 const { sync } = require('_controllers');
-const { info } = require('_config');
+const { info, error } = require('_config');
 
 
 
@@ -26,6 +26,21 @@ const syncRouter = (router) => {
     router.get('/sync/categories', (req, res) => {
       info(`[${req.method}] [${req.path}] Process Successfully`);
       sync.categories()
+      .then(response =>{
+          const outcome = every((r) => r === 0);
+          info(`[${req.method}] [${req.path}] Process Successfully`);
+          res.send(outcome);
+        }
+      )
+      .catch(err=>{
+        error(toString(err));
+        res.status(500).send(toString(err))
+      })
+    });
+
+    router.get('/sync/products', (req, res) => {
+      info(`[${req.method}] [${req.path}] Process Successfully`);
+      sync.products()
       .then(response =>{
           const outcome = every((r) => r === 0);
           info(`[${req.method}] [${req.path}] Process Successfully`);
