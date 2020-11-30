@@ -18,7 +18,7 @@ const { info } = require('_config');
   /**
    * @route GET /sync/categories
    * @description Route to sync flexxus categories with woocommerce categories
-   * @example http http://localhost:4000//sync/categories
+   * @example http http://localhost:4000/sync/categories
    * @returns {Boolean} true if all sync it's fine, false if an error as ocurred
    * @throws {String} error as string format and  500 HTTP Error Code
    */
