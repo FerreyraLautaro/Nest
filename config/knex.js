@@ -2,7 +2,7 @@
  * Requiering dependencies
  */
 const modules = require('.');
-const knexModule = require('knex');
+const knex = require('knex');
 
 /**
  * Configuration database object
@@ -28,16 +28,17 @@ const knexConfig = {
     password: DATABASE_PASSWORD,
     database: DATABASE_DATABASE,
   },
-  pool: { min: 0, max: 5 },
+  pool: { min: 5, max: 20},
   migrations: {
     directory: KNEX_MIGRATIONS_FOLDER,
     tableName: KNEX_MIGRATIONS_TABLE,
   },
+  wrapIdentifier: value => value
 };
 
 /**
  * Knex instace initialized and exported
  */
-const knex = knexModule(knexConfig);
+const db = knex(knexConfig);
 
-module.exports = { knex };
+module.exports = {knex: db} ;

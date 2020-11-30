@@ -12,7 +12,12 @@ const { info } = require('_config/log');
 const express = require('express');
 const app = express();
 // Load environment configuration from .env
-require('dotenv').config();
+const dotenv = require('dotenv');
+const dotenvExpand = require('dotenv-expand');
+
+const environment = dotenv.config();
+dotenvExpand(environment)
+
 
 // Declare constants
 const ENV = process.env.ENV;

@@ -34,8 +34,8 @@ class WooController {
      * @returns Woocommerce dataset object
      * @throws Woocommerce error object
      */
-    static async post(module, body){
-        return await WooService.post(path, body);
+    static async post(path, body){
+        return await WooService.post(path, body)
     }   
 
     /**

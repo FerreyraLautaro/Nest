@@ -12,6 +12,8 @@
         "release:major": "standard-version --release-as major",
         "test": "echo \"Error: no test specified\" && exit 1",
         "db:create": "knex migrate:make $npm_config_name",
+        "db:migrate": "knex migrate:latest",
+        "db:rollback": "knex migrate:rollback",
         "link": "(which link-module-alias && link-module-alias clean || true) && link-module-alias",
         "postinstall": "link-module-alias",
         "preinstall": "which link-module-alias && link-module-alias clean || true"
@@ -28,16 +30,19 @@
         "_config": "./config",
         "_controllers": "./controllers",
         "_services": "./services",
+        "_helpers": "./helpers",
         "_schemas": "./schemas"
     },
     "dependencies": {
         "@commitlint/cli": "^11.0.0",
         "@commitlint/config-conventional": "^11.0.0",
         "@woocommerce/woocommerce-rest-api": "^1.0.1",
+        "aigle": "^1.14.1",
         "axios": "^0.21.0",
         "cors": "^2.8.5",
         "dir-load": "^1.1.0",
         "dotenv": "^8.2.0",
+        "dotenv-expand": "^5.1.0",
         "express": "^4.17.1",
         "husky": "^4.3.0",
         "jwt-simple": "^0.5.6",

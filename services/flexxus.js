@@ -19,7 +19,7 @@ const toString = require('lodash/toString')
 class Service {
 
     constructor() {}
-
+// TODO: Docs
     async ping() {
         return flexxusPing()
             .then(response => {
@@ -29,7 +29,7 @@ class Service {
                 return toString(err);
             })
     }
-
+// TODO: Docs
     async get(path) {
         return await flexxus.get(path)
             .then(response => {
@@ -42,13 +42,12 @@ class Service {
 }
 
 
+// Instancing Flexxus Service and export it
+const FlexxusService = new Service()
+
 /**
  * @exports FlexxusService
  */
-// Instancing Flexxus Service and export it
-
-const FlexxusService = new Service()
-
 module.exports = {
     FlexxusService
 };
