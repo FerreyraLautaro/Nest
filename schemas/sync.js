@@ -7,8 +7,9 @@
  */
 
 // Requiring dependencies
-const { replace, lowerCase } = require("lodash");
+const { replace, lowerCase, toString } = require("lodash");
 // const { FLX_IMAGES_HOSTNAME } = process.env
+const { STOCK_TO_SYNC } = process.env
 
 /**
  * @class Sync
@@ -66,19 +67,18 @@ class Sync {
  */
     static products(params){
         return {
-            name: params.NOMBRE,
-            slug: replace(lowerCase(params.NOMBRE), / /g, '-'),
-            type: "simple",
-            status: "publish",
-            description: params.DESCRIPCIONLARGA,
-            short_description: params.DESCRIPCIONCORTA ,
-            sku: params.CODIGO_PRODUCTO,
-            price: params.PRECIOVENTA,
-            // regular_price: params.PRECIOVENTA,
-            // sale_price: params.PRECIOVENTA,
-            stock_quantity: params.STOCKTOTAL,
-            stock_status: (params.STOCKTOTAL > 0 ? 'instock' : 'outofstock'),
-            categories: [{id: params.CODIGO_CATEGORIA}],
+            name: toString(params.NOMBRE),
+            slug: toString(replace(lowerCase(params.NOMBRE), / /g, '-')),
+            type: toString("simple"),
+            status: toString("publish"),
+            description: toString(params.DESCRIPCIONLARGA),
+            short_description: toString(params.DESCRIPCIONCORTA ),
+            sku: toString(params.CODIGO_PRODUCTO),
+            price: toString(params.PRECIOVENTA),
+            regular_price: toString(params.PRECIOVENTA),
+            manage_stock: true,
+            stock_quantity: toString(params[STOCK_TO_SYNC]),
+            categories: [{id: toString(params.CODIGO_CATEGORIA)}],
             // images: [src: `${FLX_IMAGES_HOSTNAME}/${params.FOTO}`]
         }
     }

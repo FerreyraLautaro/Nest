@@ -10,7 +10,7 @@
  * @requires lodash/map
  */
 const {axios} = require('_config/axios');
-const { set, map, head, toNumber } = require('lodash');
+const { set, map, head, toNumber, filter } = require('lodash');
 
 /**
  * Code Dependencies
@@ -21,6 +21,7 @@ const { set, map, head, toNumber } = require('lodash');
 
 const { service, getEquivalency } = require('_services/sync')
 const {ProductSchema} = require('_schemas/wooProducts')
+const {CategorySchema} = require('_schemas/wooCategories')
 const { schema } = require('_schemas/sync')
 
 /**
@@ -47,11 +48,11 @@ class SyncController {
     static async categories() {
         const flxCategories = await axios.get(`/flexxus/categories`)
         const flxCategoriesList = getResponseData(flxCategories).data;
-        const result = map(flxCategoriesList, async item => {
+        const result = map(filter(flxCategoriesList, i => i.ACTIVO === 1), async item => {
             const category = schema.categories(item);
             let parent = await service.getEquivalency('categories', category.parent)
             set(category, 'parent', parent)
-            const schemaContext = new ProductSchema;
+            const schemaContext = new CategorySchema;
             const isValid = schemaContext.isValid(category);
             if (!isValid) {
                 throw new Error(schemaContext.validate(category))
@@ -82,7 +83,7 @@ class SyncController {
     static async products() {
         const flxProducts = await axios.get(`/flexxus/products`)
         const flxProductsList = getResponseData(flxProducts).data;
-        const result = map(flxProductsList, async item => {
+        const result = map(filter(flxProductsList, i => i.ACTIVO === 1), async item => {
             const product = schema.products(item);
             let parent = await service.getEquivalency('categories', head(product.categories).id)
             set(head(product.categories), 'id', toNumber(parent))

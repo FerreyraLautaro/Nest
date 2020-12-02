@@ -34,18 +34,12 @@ class ProductSchema {
                     type: yup.string()
                         .typeError('TypeError on description: Valid type is string')
                         .optional(),
-                    // price
-                    // regular_price
-                    // sale_price
-                    price: yup.string()
+                    regular_price: yup.string()
                         .typeError('TypeError on description: Valid type is string')
                         .required('Price is required'),
                     stock_quantity: yup.string()
                         .typeError('TypeError on description: Valid type is string')
                         .required('Stock quantity is required.'),
-                    stock_status: yup.string()
-                        .typeError('TypeError on description: Valid type is string (instock|outofstock)')
-                        .required('Stock status is required (instock|outofstock)'),
                     description: yup.string()
                         .typeError('TypeError on description: Valid type is string')
                         .optional(),
