@@ -11,7 +11,7 @@ const {
   DATABASE_HOSTNAME,
   DATABASE_USERNAME,
   DATABASE_PASSWORD,
-  DATABASE_DATABASE,
+  WOO_FLX_DATABASE,
   KNEX_MIGRATIONS_FOLDER,
   KNEX_MIGRATIONS_TABLE,
 } = process.env;
@@ -26,7 +26,7 @@ const knexConfig = {
     host: DATABASE_HOSTNAME,
     user: DATABASE_USERNAME,
     password: DATABASE_PASSWORD,
-    database: DATABASE_DATABASE,
+    database: WOO_FLX_DATABASE,
   },
   pool: { min: 5, max: 20},
   migrations: {

@@ -2,7 +2,7 @@
  * Requiring dependencies
  */
 const { set, replace, toString } = require('lodash');
-const { WooController } = require('_controllers');
+const { WooController } = require('_controllers/woocommerce');
 const { info, error, fatal } = require('_config');
 
 /**
@@ -74,6 +74,7 @@ module.exports = (router) => {
     } catch (err) {
       set(outcome, 'response', {});
       set(outcome, 'errors', 'Internal error server');
+      console.log('err',err);
       res.status(500);
       fatal(toString(err));
     }
