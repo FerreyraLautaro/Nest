@@ -21,80 +21,87 @@ class OrderSchema {
                     cart: yup.object().shape({
                         notes: yup.string()
                             .typeError('TypeError on Notes: Valid type is string')
-                            .required('Notes is required')
+                            .optional(),
                         price_list_id: yup.string()
                             .typeError('TypeError on Price list ID: Valid type is string')
-                            .required('Price list ID is required')
+                            .required('Price list ID is required'),
                         operation_type_id: yup.string()
                             .typeError('TypeError on Operation type ID: Valid type is string')
-                            .required('Operation type ID is required')
-                        type: yup.string()
-                            .typeError('TypeError on type: Valid type is string')
-                            .required('Type is required')
+                            .nullable(),
+                            // .required('Operation type ID is required'),
+                        // type: yup.string()
+                        //     .typeError('TypeError on type: Valid type is string')
+                        //     .required('Type is required'),
                         warehouse_id: yup.string()
                             .typeError('TypeError on Warehouse ID: Valid type is string')
-                            .required('Warehouse ID is required')
+                            .required('Warehouse ID is required'),
                         date: yup.string()
                             .typeError('TypeError on date: Valid type is string')
-                            .required('Date is required')
+                            .required('Date is required'),
                         user_id: yup.string()
                             .typeError('TypeError on User ID: Valid type is string')
-                            .required('User ID is required')
+                            .required('User ID is required'),
                         currency_id: yup.string()
                             .typeError('TypeError on Currency ID: Valid type is string')
-                            .required('Currency ID is required')
+                            .required('Currency ID is required'),
                         general_discount: yup.string()
                             .typeError('TypeError on General discount: Valid type is string')
-                            .required('General discount is required')
+                            .required('General discount is required'),
                         payment_method_id: yup.string()
                             .typeError('TypeError on Payment method ID: Valid type is string')
-                            .required('Payment method ID is required')
+                            .required('Payment method ID is required'),
                         customer: yup.object().shape({
                                 notes: yup.string()
                                     .typeError('TypeError on Customer Notes: Valid type is string')
-                                    .required('Customer Notes is required')
+                                    .optional(),
                             vat_number: yup.string()
                                     .typeError('TypeError on Customer VAT number: Valid type is string')
-                                    .required('Customer VAT number is required')
+                                    .nullable(),
+                                    // .required('Customer VAT number is required'),
                             id: yup.string()
                                     .typeError('TypeError on Customer ID: Valid type is string')
-                                    .required('Customer ID is required')
+                                    .optional(),
+                                    // .required('Customer ID is required'),
                             name: yup.string()
                                     .typeError('TypeError on Customer name: Valid type is string')
-                                    .required('Customer name is required')
+                                    .required('Customer name is required'),
                             address: yup.string()
                                     .typeError('TypeError on Customer address: Valid type is string')
-                                    .required('Customer address is required')
+                                    .required('Customer address is required'),
                             state_id: yup.string()
                                     .typeError('TypeError on Customer state ID: Valid type is string')
-                                    .required('Customer state ID is required')
+                                    .required('Customer state ID is required'),
                             city: yup.string()
                                     .typeError('TypeError on Customer city: Valid type is string')
-                                    .required('Customer city is required')
+                                    .required('Customer city is required'),
                             neighborhood: yup.string()
                                     .typeError('TypeError on Customer neighborhood: Valid type is string')
-                                    .required('Customer neighborhood is required')
+                                    .required('Customer neighborhood is required'),
                             user_id: yup.string()
                                     .typeError('TypeError on Customer user ID: Valid type is string')
-                                    .required('Customer user ID is required')
+                                    .optional(),
+                                    // .required('Customer user ID is required'),
                             price_list_id: yup.string()
                                     .typeError('TypeError on Customer price list ID: Valid type is string')
-                                    .required('Customer price list ID is required')
+                                    .optional(),
+                                    // .required('Customer price list ID is required'),
                             phone: yup.string()
                                     .typeError('TypeError on Customer phone: Valid type is string')
-                                    .required('Customer phone is required')
+                                    .required('Customer phone is required'),
                             cell_phone: yup.string()
                                     .typeError('TypeError on Customer cell phone: Valid type is string')
-                                    .required('Customer cell phone is required')
+                                    .optional(),
+                                    // .required('Customer cell phone is required'),
                             sales_tax_group_id: yup.string()
                                     .typeError('TypeError on Customer sales tax group ID: Valid type is string')
-                                    .required('Customer sales tax group ID is required')
+                                    .required('Customer sales tax group ID is required'),
                             document_id: yup.string()
                                     .typeError('TypeError on Customer document ID: Valid type is string')
-                                    .required('Customer document ID is required')
+                                    .optional(),
+                                    // .required('Customer document ID is required'),
                             email: yup.string()
                                     .typeError('TypeError on Customer email: Valid type is string')
-                                    .required('Customer email is required')
+                                    .required('Customer email is required'),
                             zipcode: yup.string()
                                     .typeError('TypeError on Customer zipcode: Valid type is string')
                                     .required('Customer zipcode is required')
@@ -107,22 +114,22 @@ class OrderSchema {
                                 .shape({
                                     product_id: yup.string()
                                         .typeError('TypeError on Products product ID: Valid type is string')
-                                        .required('Products product ID is required')
+                                        .required('Products product ID is required'),
                                 size: yup.string()
                                         .typeError('TypeError on Products size: Valid type is string')
-                                        .required('Products size is required')
-                                discount: yup.string()
-                                        .typeError('TypeError on Products discount: Valid type is string')
-                                        .required('Products discount is required')
-                                netPrice: yup.string()
-                                        .typeError('TypeError on Products netPrice: Valid type is string')
-                                        .required('Products netPrice is required')
-                                quantity: yup.string()
-                                        .typeError('TypeError on Products quantity: Valid type is string')
+                                        .optional(),
+                                discount: yup.number()
+                                        .typeError('TypeError on Products discount: Valid type is floating number')
+                                        .required('Products discount is required'),
+                                netPrice: yup.number()
+                                        .typeError('TypeError on Products netPrice: Valid type is floating number')
+                                        .required('Products netPrice is required'),
+                                quantity: yup.number()
+                                        .typeError('TypeError on Products quantity: Valid type is integer number')
                                         .required('Products quantity is required')
                                 })
                             )
-                    });
+                    })
                 })
                     .required('Cart object is required');
                 break;
@@ -162,8 +169,8 @@ class OrdersSchema extends OrderSchema {
 }
 
 module.exports = {
-    OrderSchema,
-    OrdersSchema,
+    flxOrder: OrderSchema,
+    flxOrders: OrdersSchema,
 };
 
 

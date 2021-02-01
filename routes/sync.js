@@ -53,6 +53,21 @@ const syncRouter = (router) => {
       })
     });
 
+    router.get('/sync/orders', (req, res) => {
+      info(`[${req.method}] [${req.path}] Process Successfully`);
+      sync.orders()
+      .then(response =>{
+          const outcome = every((r) => r === 0);
+          info(`[${req.method}] [${req.path}] Process Successfully`);
+          res.send(outcome);
+        }
+      )
+      .catch(err=>{
+        error(toString(err));
+        res.status(500).send(toString(err))
+      })
+    });
+
 }
 
 /**

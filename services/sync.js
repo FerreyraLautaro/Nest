@@ -12,7 +12,7 @@
 // Requiring dependencies
 const { error } = require('_config');
 const {knex}  = require('_config/knex');
-const { toString, head, size } = require('lodash');
+const { toString, head, size, map } = require('lodash');
 
 /**
  * @class SyncService
@@ -26,15 +26,17 @@ class SyncService {
     /**
      * @function getEquivalency Method to sync categories
      * @param {String} table Table on database to be querying
+     * @param {String} to Field or column on database, equivalent
+     * @param {String} from Field or column on database what need equivalency
      * @param {String} id ID value of flexxus object for which the equivalent woocommerce ID is needed
      * @returns {Knex} knex querying instance
      * @throws {string} Knex or Database error on string format. Additionally, this is logged.
      */
-    static async getEquivalency(table, id) {
+    static async getEquivalency(table, to, from, id) {
         try {
-            const res = await knex.select('woo_id').from(table).where('flx_id', id)
-            return size(res) !== 0 ? head(res).woo_id : 0 // This line validate if the response have any content; if this have, return the woo_id value, if not return 0
-        } catch (error) {
+            const res = await knex.select(to).from(table).where(from, id)
+            return size(res) !== 0 ? head(res)[to] : 0 // This line validate if the response have any content; if this have, return the woo_id value, if not return 0
+        } catch (err) {
             error(toString(err));
             return toString(err);
         }
@@ -59,6 +61,21 @@ class SyncService {
 
     }
 
+    /**
+     * @function getSynchronizedList Method to get a list of synchronized objects
+     * @param {String} table Table on database to be querying
+     * @returns {Knex} knex querying instance
+     * @throws {string} Knex or Database error on string format. Additionally, this is logged.
+     */
+    static async getSynchronizedList(table) {
+        try {
+            const res = await knex.select('woo_id').from(table)
+            return map(res, i => i.woo_id) 
+        } catch (error) {
+            error(toString(err));
+            return toString(err);
+        }
+    }
 
 }
 

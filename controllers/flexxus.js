@@ -32,6 +32,19 @@ class FlexxusController {
     static async get(path){
         return FlexxusService.get(path);
     }    
+
+
+     /**
+     * @function post Can send dataset to create new element. Connection are realized directly to flexxus instance.
+     * @param {String} path Path query destination
+     * @param {JSON} body Relative content according to the action to execute
+     * @returns Flexxus dataset object
+     * @throws Flexxus error object
+     */
+    static async post(path, body){
+        return await FlexxusService.post(path, body)
+    }   
+
 }
 
 /**

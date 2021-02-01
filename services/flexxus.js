@@ -39,6 +39,18 @@ class Service {
               return toString(err);
             })
     }
+
+    async post(path, body) {
+        //TODO: docs
+        //TODO: schema validation
+        return await flexxus.post(path, body)
+            .then(response => {
+              return response.data;
+            })
+            .catch(err => {
+              return toString(err);
+            })
+    }
 }
 
 

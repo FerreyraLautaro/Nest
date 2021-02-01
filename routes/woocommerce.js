@@ -57,7 +57,7 @@ module.exports = (router) => {
 
   router.get(['/woo/:module'], async (req, res) => {
     const outcome = {};
-    const module = replace(req.params.module, /(_)/g, '/');
+    const module = replace(replace(req.params.module, /(_)/g, '/'), /(-)/g, '_');
 
     try {
       await WooController.get(module)
@@ -92,7 +92,7 @@ module.exports = (router) => {
 
   router.post(['/woo/:module'], async (req, res) => {
     const outcome = {};
-    const module = replace(req.params.module, /(_)/g, '/');
+    const module = replace(replace(req.params.module, /(_)/g, '/'), /(-)/g, '_');
     const body = req.body;
 
     try {
@@ -128,7 +128,7 @@ module.exports = (router) => {
 
   router.put(['/woo/:module'], async (req, res) => {
     const outcome = {};
-    const module = replace(req.params.module, /(_)/g, '/');
+    const module = replace(replace(req.params.module, /(_)/g, '/'), /(-)/g, '_');
     const body = req.body;
     try {
       await WooController.put(module, body)
@@ -162,7 +162,7 @@ module.exports = (router) => {
 
   router.delete(['/woo/:module'], async (req, res) => {
     const outcome = {};
-    const module = replace(req.params.module, /(_)/g, '/');
+    const module = replace(replace(req.params.module, /(_)/g, '/'), /(-)/g, '_');
     const body = req.body;
     try {
       await WooController.delete(module, body)

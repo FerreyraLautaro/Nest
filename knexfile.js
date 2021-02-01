@@ -7,6 +7,7 @@ const {
   WOO_FLX_DATABASE,
   KNEX_MIGRATIONS_FOLDER,
   KNEX_MIGRATIONS_TABLE,
+  KNEX_SEEDS_FOLDER
 } = process.env;
 
 module.exports = {
@@ -22,4 +23,7 @@ module.exports = {
     directory: KNEX_MIGRATIONS_FOLDER,
     tableName: KNEX_MIGRATIONS_TABLE,
   },
+  seeds: {
+    directory: KNEX_SEEDS_FOLDER
+}
 };
