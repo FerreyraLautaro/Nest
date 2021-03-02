@@ -10,8 +10,14 @@
 const { replace, lowerCase, toString, map, set } = require('lodash');
 const moment = require('moment');
 // const { FLX_IMAGES_HOSTNAME } = process.env
-const { STOCK_TO_SYNC } = process.env;
-
+const { STOCK_TO_SYNC,
+  PRICE_LIST_ID,
+  TYPE,
+  USER_ID,
+  SALES_TAX_GROUP_ID,
+  WAREHOUSE_ID,
+  CURRENCY_ID
+} = process.env;
 /**
  * @class Sync
  * @description Class container with controllers and additional function for doing Sync module fully functionally
@@ -105,13 +111,13 @@ class Sync {
     return {
       cart: {
         notes: `${params.customer_note}`,
-        price_list_id: '2', // TODO: Variabilizar
+        price_list_id: PRICE_LIST_ID,
         operation_type_id: null,
-        // type: 'NP', // TODO: Variabilizar
-        warehouse_id: '001', // TODO: Variabilizar
+        type: TYPE,
+        warehouse_id: WAREHOUSE_ID,
         date: moment(params.date_created).format("YYYY-MM-DD hh:mm:ss"),
-        user_id: 'ventaweb', // TODO: Variabilizar
-        currency_id: 'PESOS',
+        user_id: USER_ID,
+        currency_id: CURRENCY_ID,
         general_discount: params.discount_total,
         payment_method_id: `1`, // Requiere relacion con pre-definicion
         customer: {
@@ -127,7 +133,7 @@ class Sync {
           // price_list_id: '',
           phone: `${params.billing.phone}`,
           cell_phone: '',
-          sales_tax_group_id: 'CF', // TODO: Variabilizar
+          sales_tax_group_id: SALES_TAX_GROUP_ID,
           document_id: '',
           email: `${params.billing.email}`,
           zipcode: `${params.billing.postcode}`,
