@@ -1,0 +1,8 @@
+version: "3.3"
+   
+services:
+  flx_woo:
+    build: .
+    ports:
+      - "8001:4000"
+    network_mode: "host"
