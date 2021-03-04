@@ -23,5 +23,6 @@ COPY  --from=dependencies /usr/src/app/node_modules ./node_modules
 # Publish port
 EXPOSE 4000
 
+RUN npm run link
 # Server nodejs command and parameters
 CMD [ "node", "app.js" ]

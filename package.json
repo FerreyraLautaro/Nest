@@ -16,9 +16,7 @@
         "db:migrate": "knex migrate:latest",
         "db:seed": "knex seed:run",
         "db:rollback": "knex migrate:rollback",
-        "link": "(which link-module-alias && link-module-alias clean || true) && link-module-alias",
-        "postinstall": "link-module-alias",
-        "preinstall": "which link-module-alias && link-module-alias clean || true"
+        "link": "(which link-module-alias && link-module-alias clean || true) && link-module-alias"
     },
     "repository": {
         "type": "git",
