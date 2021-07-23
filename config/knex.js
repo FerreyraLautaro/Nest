@@ -22,14 +22,24 @@ const {
  * Include database object and migrations configuration
  */
 const knexConfig = {
-  client: 'mysql',
+  client: 'mysql2',
+  pool: {
+    min: 1,
+    max: 10,
+    createTimeoutMillis: 15000,
+    acquireTimeoutMillis: 60000,
+    idleTimeoutMillis: 30000,
+    reapIntervalMillis: 6000,
+    createRetryIntervalMillis: 1000,
+    propagateCreateError: false
+  },
+  debug: true,
   connection: {
     host: DATABASE_HOSTNAME,
     user: DATABASE_USERNAME,
     password: DATABASE_PASSWORD,
     database: WOO_FLX_DATABASE,
   },
-  pool: { min: 5, max: 20},
   migrations: {
     directory: KNEX_MIGRATIONS_FOLDER,
     tableName: KNEX_MIGRATIONS_TABLE,

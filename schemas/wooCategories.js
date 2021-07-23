@@ -25,10 +25,9 @@ class CategorySchema {
                     slug: yup.string()
                         .typeError('TypeError on slug: Valid type is string')
                         .required('Slug is required'),
-                    parent: yup.number()
+                    parent: yup.string()
                         .typeError('TypeError on parent: Valid type is number')
-                        .optional()
-                        .integer('Parent has be integer'),
+                        .optional(),
                     description: yup.string()
                         .typeError('TypeError on description: Valid type is string')
                         .optional(),

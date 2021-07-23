@@ -4,7 +4,6 @@
     "description": "",
     "main": "app.js",
     "scripts": {
-        "prestart": "npm i",
         "start": "nodemon app.js",
         "release": "standard-version",
         "release:minor": "standard-version --release-as minor",
@@ -52,6 +51,7 @@
         "moment": "^2.29.1",
         "morgan": "^1.10.0",
         "mysql": "^2.18.1",
+        "mysql2": "^2.2.5",
         "nodemon": "^2.0.6",
         "qs": "^6.9.4",
         "querystring": "^0.2.0",

@@ -47,7 +47,7 @@ module.exports = (router) => {
 
   router.get('/flexxus/products', async (req, res) => {
     const outcome = {};
-    await FlexxusController.get('products')
+    await FlexxusController.get('products?limit=300')
     .then(response => {
         set(outcome,'response',response);
         set(outcome,'error',{});

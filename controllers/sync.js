@@ -50,6 +50,7 @@ class SyncController {
         const flxCategories = await axios.get(`/flexxus/categories`);
         const flxCategoriesList = getResponseData(flxCategories).data;
         const result = map(filter(flxCategoriesList, i => i.ACTIVO === 1), async item => {
+            if(item.CODIGOCATEGORIA === 'R00182') return false //FIXME: VER ESTA CATEGORIA "NO USAR"
             const category = schema.categories(item);
             let parent = await service.getEquivalency('categories', 'woo_id', 'flx_id', category.parent);
             set(category, 'parent', parent);
@@ -98,13 +99,17 @@ class SyncController {
                 throw new Error(schemaContext.validate(product));
             }
 
+            setTimeout( async () => {
             const exist = await service.getEquivalency('products', 'woo_id', 'flx_id', item.ID_ARTICULO);
 
             if (exist) {
                 try {
-                    const wooProduct = await axios.put(`/woo/products/${exist}`, product);
-                return;    
+                    
+                        const wooProduct = await axios.put(`/woo/products/${exist}`, product);
+                    
+                return;
                 } catch (error) {
+                    console.log('###################', error)
                 }
                 
             }
@@ -117,7 +122,11 @@ class SyncController {
                     });
                     return relations;
                 })
-                .catch(err => {throw new Error(toString(err))});
+                .catch(err => {
+                    console.log('----------------------', err)
+                    throw new Error(toString(err))
+                });
+            }, 1000)
         });
         return await Promise.all(result);
     }

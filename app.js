@@ -20,7 +20,7 @@ dotenvExpand(environment)
 
 
 // Declare constants
-const ENV = process.env.ENV;
+const ENV = process.env.NODE_ENV;
 const PORT = process.env.PORT || process.env.VCAP_APP_PORT || 4000;
 
 // Setup Middleware

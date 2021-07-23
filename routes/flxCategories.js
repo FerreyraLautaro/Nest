@@ -47,7 +47,7 @@ module.exports = (router) => {
 
   router.get('/flexxus/categories', async (req, res) => {
     const outcome = {};
-    await FlexxusController.get('categories')
+    await FlexxusController.get('categories?limit=-1')
     .then(response => {
         set(outcome,'response',response);
         set(outcome,'error',{});
