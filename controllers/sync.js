@@ -89,44 +89,71 @@ class SyncController {
     static async products() {
         const flxProducts = await axios.get(`/flexxus/products`);
         const flxProductsList = getResponseData(flxProducts).data;
+        
+        const dataRelationsProduct = await service.getEquivalencyList('products');
+        const dataRelationsCategory = await service.getEquivalencyList('categories');
+        //console.log(dataRelationsProduct);
+        
         const result = map(filter(flxProductsList, i => i.ACTIVO === 1), async item => {
             const product = schema.products(item);
-            let parent = await service.getEquivalency('categories', 'woo_id', 'flx_id', head(product.categories).id);
-            set(head(product.categories), 'id', toNumber(parent));
+            
+            //esta funcion consume mucho mysql, se reemplaza
+            //let parent = await service.getEquivalency('categories', 'woo_id', 'flx_id', head(product.categories).id);
+            let parent = dataRelationsCategory.find(o => o.flx_id === item.CODIGO_CATEGORIA);
+            if(!parent){ return }
+            
+            //console.log("categoria " +parent.woo_id);
+            
+            set(head(product.categories), 'id', toNumber(parent.woo_id));
             const schemaContext = new ProductSchema;
             const isValid = schemaContext.isValid(product);
             if (!isValid) {
                 throw new Error(schemaContext.validate(product));
             }
 
-            setTimeout( async () => {
-            const exist = await service.getEquivalency('products', 'woo_id', 'flx_id', item.ID_ARTICULO);
+            let itemRelation = 0
+            
+            if(dataRelationsProduct){
+                       
+                itemRelation = dataRelationsProduct.find(o => o.flx_id === item.ID_ARTICULO);
+            }
+            //esta funcion busca 1 por 1 en la base y rompe el mysql
+            //const exist = await service.getEquivalency('products', 'woo_id', 'flx_id', item.ID_ARTICULO);
 
-            if (exist) {
-                try {
-                    
-                        const wooProduct = await axios.put(`/woo/products/${exist}`, product);
-                    
-                return;
-                } catch (error) {
-                    console.log('###################', error)
-                }
+            if (itemRelation) {
+                
+                //console.log("producto encontrado "+ itemRelation.woo_id);
+                
+                    try {
+                            const wooProduct = await axios.put(`/woo/products/${itemRelation.woo_id}`, product);
+                             return;
+                    } catch (error) {
+                        console.log('###################', error)
+                    }
                 
             }
             // const wooProduct = await
+            
             return axios.post(`/woo/products`, product)
                 .then(async wooProduct => {
-                    const relations = await service.saveRelation('products', {
-                        flx_id: item.ID_ARTICULO,
-                        woo_id: getResponseData(wooProduct).id
-                    });
-                    return relations;
+                    
+                    let id_woo_generado = getResponseData(wooProduct).id;
+                    
+                    if(id_woo_generado){
+                        const relations = await service.saveRelation('products', {
+                            flx_id: item.ID_ARTICULO,
+                            woo_id: id_woo_generado
+                        });
+
+                        return relations;
+                    }
+                    return
                 })
                 .catch(err => {
                     console.log('----------------------', err)
                     throw new Error(toString(err))
                 });
-            }, 1000)
+          
         });
         return await Promise.all(result);
     }

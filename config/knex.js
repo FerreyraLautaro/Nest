@@ -27,11 +27,11 @@ const knexConfig = {
     min: 1,
     max: 10,
     createTimeoutMillis: 15000,
-    acquireTimeoutMillis: 60000,
+    acquireTimeoutMillis: 90000,
     idleTimeoutMillis: 30000,
     reapIntervalMillis: 6000,
     createRetryIntervalMillis: 1000,
-    propagateCreateError: false
+    propagateCreateError: true
   },
   debug: true,
   connection: {

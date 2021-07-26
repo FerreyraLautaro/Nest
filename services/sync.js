@@ -43,6 +43,23 @@ class SyncService {
     }
 
     /**
+     * @function getEquivalencyList Method to sync products
+     * @param {String} table Table on database to be querying
+     * 
+     * @returns {Knex} knex querying instance
+     * @throws {string} Knex or Database error on string format. Additionally, this is logged.
+     */
+     static async getEquivalencyList(table) {
+        try {
+            const res = await knex.select().from(table)
+            return size(res) !== 0 ? res : 0
+        } catch (error) {
+            error(toString(err));
+            return toString(err);
+        }
+    }
+
+    /**
      * @function getEquivalency Method to sync categories
      * @param {String} table Table on database to be querying
      * @param {Array} values List a object {key: value} for send to database
