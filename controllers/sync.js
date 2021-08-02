@@ -93,9 +93,13 @@ class SyncController {
         const dataRelationsProduct = await service.getEquivalencyList('products');
         const dataRelationsCategory = await service.getEquivalencyList('categories');
         //console.log(dataRelationsProduct);
+
+        let j = 0
         
         const result = map(filter(flxProductsList, i => i.ACTIVO === 1), async item => {
             const product = schema.products(item);
+
+            j++
             
             //esta funcion consume mucho mysql, se reemplaza
             //let parent = await service.getEquivalency('categories', 'woo_id', 'flx_id', head(product.categories).id);
@@ -120,39 +124,43 @@ class SyncController {
             //esta funcion busca 1 por 1 en la base y rompe el mysql
             //const exist = await service.getEquivalency('products', 'woo_id', 'flx_id', item.ID_ARTICULO);
 
-            if (itemRelation) {
+            setTimeout( async () => {
                 
-                //console.log("producto encontrado "+ itemRelation.woo_id);
-                
-                    try {
-                            const wooProduct = await axios.put(`/woo/products/${itemRelation.woo_id}`, product);
-                             return;
-                    } catch (error) {
-                        console.log('###################', error)
-                    }
-                
-            }
-            // const wooProduct = await
-            
-            return axios.post(`/woo/products`, product)
-                .then(async wooProduct => {
+                if (itemRelation) {
                     
-                    let id_woo_generado = getResponseData(wooProduct).id;
+                    //console.log("producto encontrado "+ itemRelation.woo_id);
                     
-                    if(id_woo_generado){
-                        const relations = await service.saveRelation('products', {
-                            flx_id: item.ID_ARTICULO,
-                            woo_id: id_woo_generado
-                        });
+                        try {
+                                const wooProduct = await axios.put(`/woo/products/${itemRelation.woo_id}`, product);
+                                return;
+                        } catch (error) {
+                            console.log('###################', error)
+                        }
+                    
+                }
+                // const wooProduct = await
+                
+                return axios.post(`/woo/products`, product)
+                    .then(async wooProduct => {
+                        
+                        let id_woo_generado = getResponseData(wooProduct).id;
+                        
+                        if(id_woo_generado){
+                            const relations = await service.saveRelation('products', {
+                                flx_id: item.ID_ARTICULO,
+                                woo_id: id_woo_generado
+                            });
 
-                        return relations;
-                    }
-                    return
-                })
-                .catch(err => {
-                    console.log('----------------------', err)
-                    throw new Error(toString(err))
-                });
+                            return relations;
+                        }
+                        return
+                    })
+                    .catch(err => {
+                        console.log('----------------------', err)
+                        throw new Error(toString(err))
+                    });
+
+            }, j * 300);//wait 300 miliseconds  
           
         });
         return await Promise.all(result);
